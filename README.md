@@ -64,7 +64,7 @@
 
 1. **克隆项目**
 ```bash
-git clone <repository-url>
+git clone https://github.com/Anionex/banana-slides
 cd banana-slides
 ```
 
