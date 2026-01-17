@@ -131,6 +131,14 @@ def update_settings():
             else:
                 return bad_request("Output language must be 'zh', 'en', 'ja', or 'auto'")
 
+        # Update reasoning mode configuration
+        if "enable_reasoning" in data:
+            settings.enable_reasoning = bool(data["enable_reasoning"])
+
+        # Update Baidu OCR configuration
+        if "baidu_ocr_api_key" in data:
+            settings.baidu_ocr_api_key = data["baidu_ocr_api_key"] or None
+
         settings.updated_at = datetime.now(timezone.utc)
         db.session.commit()
 
@@ -182,6 +190,8 @@ def reset_settings():
         settings.mineru_token = Config.MINERU_TOKEN
         settings.image_caption_model = Config.IMAGE_CAPTION_MODEL
         settings.output_language = 'zh'  # 重置为默认中文
+        settings.enable_reasoning = False  # 重置为默认关闭推理
+        settings.baidu_ocr_api_key = Config.BAIDU_OCR_API_KEY or None
         settings.image_resolution = Config.DEFAULT_RESOLUTION
         settings.image_aspect_ratio = Config.DEFAULT_ASPECT_RATIO
         settings.max_description_workers = Config.MAX_DESCRIPTION_WORKERS
@@ -290,6 +300,15 @@ def _sync_settings_to_config(settings: Settings):
     if settings.output_language:
         current_app.config["OUTPUT_LANGUAGE"] = settings.output_language
         logger.info(f"Updated OUTPUT_LANGUAGE to: {settings.output_language}")
+    
+    # Sync reasoning mode setting
+    current_app.config["ENABLE_REASONING"] = settings.enable_reasoning
+    logger.info(f"Updated ENABLE_REASONING to: {settings.enable_reasoning}")
+    
+    # Sync Baidu OCR settings
+    if settings.baidu_ocr_api_key:
+        current_app.config["BAIDU_OCR_API_KEY"] = settings.baidu_ocr_api_key
+        logger.info("Updated BAIDU_OCR_API_KEY from settings")
     
     # Clear AI service cache if AI-related configuration changed
     if ai_config_changed:

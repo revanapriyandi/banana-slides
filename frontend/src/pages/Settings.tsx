@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Key, Image, Zap, Save, RotateCcw, Globe, FileText } from 'lucide-react';
+import { Home, Key, Image, Zap, Save, RotateCcw, Globe, FileText, Brain } from 'lucide-react';
 import { Button, Input, Card, Loading, useToast, useConfirm } from '@/components/shared';
 import * as api from '@/api/endpoints';
 import type { OutputLanguage } from '@/api/endpoints';
@@ -8,7 +8,7 @@ import { OUTPUT_LANGUAGE_OPTIONS } from '@/api/endpoints';
 import type { Settings as SettingsType } from '@/types';
 
 // 配置项类型定义
-type FieldType = 'text' | 'password' | 'number' | 'select' | 'buttons';
+type FieldType = 'text' | 'password' | 'number' | 'select' | 'buttons' | 'switch';
 
 interface FieldConfig {
   key: keyof typeof initialFormData;
@@ -52,6 +52,8 @@ const initialFormData = {
   max_description_workers: 5,
   max_image_workers: 8,
   output_language: 'zh' as OutputLanguage,
+  enable_reasoning: false,
+  baidu_ocr_api_key: '',
 };
 
 // 配置驱动的表单区块定义
@@ -189,6 +191,33 @@ const settingsSections: SectionConfig[] = [
       },
     ],
   },
+  {
+    title: '推理模式',
+    icon: <Brain size={20} />,
+    fields: [
+      {
+        key: 'enable_reasoning',
+        label: '启用推理（Thinking）',
+        type: 'switch',
+        description: '开启后，支持的模型会使用 extended thinking 进行深度推理，可能获得更好的结果但会增加响应时间和 token 消耗。不需要时可关闭以节省资源。',
+      },
+    ],
+  },
+  {
+    title: '百度 OCR 配置',
+    icon: <FileText size={20} />,
+    fields: [
+      {
+        key: 'baidu_ocr_api_key',
+        label: '百度 OCR API Key',
+        type: 'password',
+        placeholder: '输入百度 OCR API Key',
+        sensitiveField: true,
+        lengthKey: 'baidu_ocr_api_key_length',
+        description: '用于可编辑 PPTX 导出时的文字识别功能，留空则保持当前设置不变',
+      },
+    ],
+  },
 ];
 
 // Settings 组件 - 纯嵌入模式（可复用）
@@ -226,6 +255,8 @@ export const Settings: React.FC = () => {
           mineru_token: '',
           image_caption_model: response.data.image_caption_model || '',
           output_language: response.data.output_language || 'zh',
+          enable_reasoning: response.data.enable_reasoning || false,
+          baidu_ocr_api_key: '',
         });
       }
     } catch (error: any) {
@@ -242,7 +273,7 @@ export const Settings: React.FC = () => {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const { api_key, mineru_token, ...otherData } = formData;
+      const { api_key, mineru_token, baidu_ocr_api_key, ...otherData } = formData;
       const payload: Parameters<typeof api.updateSettings>[0] = {
         ...otherData,
       };
@@ -255,12 +286,16 @@ export const Settings: React.FC = () => {
         payload.mineru_token = mineru_token;
       }
 
+      if (baidu_ocr_api_key) {
+        payload.baidu_ocr_api_key = baidu_ocr_api_key;
+      }
+
       const response = await api.updateSettings(payload);
       if (response.data) {
         setSettings(response.data);
         show({ message: '设置保存成功', type: 'success' });
         show({ message: '建议在本页底部进行服务测试，验证关键配置', type: 'info' });
-        setFormData(prev => ({ ...prev, api_key: '', mineru_token: '' }));
+        setFormData(prev => ({ ...prev, api_key: '', mineru_token: '', baidu_ocr_api_key: '' }));
       }
     } catch (error: any) {
       console.error('保存设置失败:', error);
@@ -296,6 +331,8 @@ export const Settings: React.FC = () => {
               mineru_token: '',
               image_caption_model: response.data.image_caption_model || '',
               output_language: response.data.output_language || 'zh',
+              enable_reasoning: response.data.enable_reasoning || false,
+              baidu_ocr_api_key: '',
             });
             show({ message: '设置已重置', type: 'success' });
           }
@@ -396,6 +433,36 @@ export const Settings: React.FC = () => {
               </option>
             ))}
           </select>
+          {field.description && (
+            <p className="mt-1 text-sm text-gray-500">{field.description}</p>
+          )}
+        </div>
+      );
+    }
+
+    // switch 类型 - 开关切换
+    if (field.type === 'switch') {
+      const isEnabled = Boolean(value);
+      return (
+        <div key={field.key}>
+          <div className="flex items-center justify-between">
+            <label className="block text-sm font-medium text-gray-700">
+              {field.label}
+            </label>
+            <button
+              type="button"
+              onClick={() => handleFieldChange(field.key, !isEnabled)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-banana-500 focus:ring-offset-2 ${
+                isEnabled ? 'bg-banana-500' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  isEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
           {field.description && (
             <p className="mt-1 text-sm text-gray-500">{field.description}</p>
           )}

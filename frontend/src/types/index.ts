@@ -133,6 +133,8 @@ export interface Settings {
   mineru_token_length: number;
   image_caption_model?: string;
   output_language: 'zh' | 'en' | 'ja' | 'auto';
+  enable_reasoning: boolean;
+  baidu_ocr_api_key_length: number;
   created_at?: string;
   updated_at?: string;
 }
