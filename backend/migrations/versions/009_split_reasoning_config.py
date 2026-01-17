@@ -12,7 +12,7 @@ from sqlalchemy import inspect
 
 # revision identifiers, used by Alembic.
 revision = '009_split_reasoning_config'
-down_revision = '007_add_enable_reasoning'
+down_revision = '008_add_baidu_ocr_api_key'
 branch_labels = None
 depends_on = None
 
