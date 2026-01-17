@@ -268,8 +268,8 @@ def _sync_settings_to_config(settings: Settings):
 
     if settings.api_key is not None:
         old_key = current_app.config.get("GOOGLE_API_KEY")
-        # Only compare existence, not actual value for security
-        if (old_key is None) != (settings.api_key is None):
+        # Compare actual values to detect any change (but don't log the keys for security)
+        if old_key != settings.api_key:
             ai_config_changed = True
             logger.info("API key updated")
         current_app.config["GOOGLE_API_KEY"] = settings.api_key
