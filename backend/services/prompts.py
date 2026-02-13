@@ -338,8 +338,6 @@ def get_image_generation_prompt(page_desc: str, outline_text: str,
 <reference_information>
 整个PPT的大纲为：
 {outline_text}
-
-当前位于章节：{current_section}
 </reference_information>
 
 
