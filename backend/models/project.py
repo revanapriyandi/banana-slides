@@ -61,7 +61,7 @@ class Project(db.Model):
             'export_extractor_method': self.export_extractor_method or 'hybrid',
             'export_inpaint_method': self.export_inpaint_method or 'hybrid',
             'export_allow_partial': self.export_allow_partial or False,
-            'image_aspect_ratio': self.image_aspect_ratio or '16:9',
+            'image_aspect_ratio': self.image_aspect_ratio,
             'status': self.status,
             'created_at': created_at_str,
             'updated_at': updated_at_str,

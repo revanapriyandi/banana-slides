@@ -12,6 +12,7 @@ import { useImagePaste } from '@/hooks/useImagePaste';
 import { useT } from '@/hooks/useT';
 import { PRESET_STYLES } from '@/config/presetStyles';
 import { presetStylesI18n } from '@/config/presetStylesI18n';
+import { ASPECT_RATIO_OPTIONS } from '@/config/aspectRatio';
 
 type CreationType = 'idea' | 'outline' | 'description';
 
@@ -187,14 +188,6 @@ export const Home: React.FC = () => {
   const [isAspectRatioOpen, setIsAspectRatioOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const themeMenuRef = useRef<HTMLDivElement>(null);
-
-  const ASPECT_RATIO_OPTIONS = [
-    { value: '16:9', label: '16:9' },
-    { value: '4:3', label: '4:3' },
-    { value: '1:1', label: '1:1' },
-    { value: '9:16', label: '9:16' },
-    { value: '3:2', label: '3:2' },
-  ];
 
   // 持久化草稿到 sessionStorage，确保跳转设置页后返回时内容不丢失
   useEffect(() => {

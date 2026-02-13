@@ -8,6 +8,7 @@ from datetime import datetime
 
 from flask import Blueprint, request, jsonify, current_app
 from sqlalchemy import desc
+from utils.validators import normalize_aspect_ratio
 from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import BadRequest
 
@@ -190,7 +191,6 @@ def create_project():
         # Validate and set aspect ratio if provided
         image_aspect_ratio = '16:9'
         if 'image_aspect_ratio' in data:
-            from utils.validators import normalize_aspect_ratio
             try:
                 image_aspect_ratio = normalize_aspect_ratio(data['image_aspect_ratio'])
             except ValueError as e:
@@ -296,7 +296,6 @@ def update_project(project_id):
         
         # Update aspect ratio if provided
         if 'image_aspect_ratio' in data:
-            from utils.validators import normalize_aspect_ratio
             try:
                 project.image_aspect_ratio = normalize_aspect_ratio(data['image_aspect_ratio'])
             except ValueError as e:
@@ -773,7 +772,7 @@ def generate_images(project_id):
             outline,
             use_template,
             max_workers,
-            project.image_aspect_ratio or '16:9',
+            project.image_aspect_ratio,
             current_app.config['DEFAULT_RESOLUTION'],
             app,
             combined_requirements if combined_requirements.strip() else None,

@@ -4,6 +4,7 @@ import { Button, Textarea } from '@/components/shared';
 import { useT } from '@/hooks/useT';
 import { Settings } from '@/pages/Settings';
 import type { ExportExtractorMethod, ExportInpaintMethod } from '@/types';
+import { ASPECT_RATIO_OPTIONS } from '@/config/aspectRatio';
 
 // ProjectSettings 组件自包含翻译
 const projectSettingsI18n = {
@@ -124,14 +125,6 @@ export const ProjectSettingsModal: React.FC<ProjectSettingsModalProps> = ({
 }) => {
   const t = useT(projectSettingsI18n);
   const [activeTab, setActiveTab] = useState<SettingsTab>('project');
-
-  const ASPECT_RATIO_OPTIONS = [
-    { value: '16:9', label: '16:9' },
-    { value: '4:3', label: '4:3' },
-    { value: '1:1', label: '1:1' },
-    { value: '9:16', label: '9:16' },
-    { value: '3:2', label: '3:2' },
-  ];
 
   const EXTRACTOR_METHOD_OPTIONS: { value: ExportExtractorMethod; labelKey: string; descKey: string }[] = [
     { value: 'hybrid', labelKey: 'projectSettings.extractorHybrid', descKey: 'projectSettings.extractorHybridDesc' },

@@ -1080,7 +1080,7 @@ export const SlidePreview: React.FC = () => {
 
     setIsSavingAspectRatio(true);
     try {
-      await updateProject(projectId, { image_aspect_ratio: aspectRatio } as any);
+      await updateProject(projectId, { image_aspect_ratio: aspectRatio });
       await syncProject(projectId);
       show({ message: t('slidePreview.aspectRatioSaved'), type: 'success' });
     } catch (error: any) {

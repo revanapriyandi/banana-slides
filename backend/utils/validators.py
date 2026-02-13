@@ -7,11 +7,6 @@ from typing import Set
 
 # --- Aspect ratio validation ---
 
-_COMMON_IMAGE_ASPECT_RATIOS = {
-    "1:1", "3:4", "4:3", "16:9", "9:16",
-    "21:9", "3:2", "2:3", "4:5", "5:4",
-}
-
 _ASPECT_RATIO_PATTERN = re.compile(r"^\d+:\d+$")
 _ASPECT_RATIO_MIN = 0.2
 _ASPECT_RATIO_MAX = 5.0
