@@ -607,6 +607,7 @@ export const Settings: React.FC = () => {
       const { api_key, mineru_token, baidu_ocr_api_key, lazyllm_api_keys, ...otherData } = formData;
       const payload: Parameters<typeof api.updateSettings>[0] = {
         ...otherData,
+        output_language: otherData.output_language as any,
       };
 
       if (api_key) {
@@ -752,17 +753,17 @@ export const Settings: React.FC = () => {
       const pollInterval = setInterval(async () => {
         try {
           const statusResponse = await api.getTestStatus(taskId);
-          const taskStatus = statusResponse.data.status;
+          const taskStatus = statusResponse?.data?.status;
 
           if (taskStatus === 'COMPLETED') {
             clearInterval(pollInterval);
-            const detail = formatDetail(statusResponse.data.result || {});
-            const message = statusResponse.data.message || '测试成功';
+            const detail = formatDetail(statusResponse?.data?.result || {});
+            const message = statusResponse?.data?.message || '测试成功';
             updateServiceTest(key, { status: 'success', message, detail });
             show({ message, type: 'success' });
           } else if (taskStatus === 'FAILED') {
             clearInterval(pollInterval);
-            const errorMessage = statusResponse.data.error || '测试失败';
+            const errorMessage = statusResponse?.data?.error || '测试失败';
             updateServiceTest(key, { status: 'error', message: errorMessage });
             show({ message: `${t('settings.serviceTest.testFailed')}: ${errorMessage}`, type: 'error' });
           }
