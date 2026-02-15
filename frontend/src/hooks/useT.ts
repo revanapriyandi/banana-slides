@@ -65,7 +65,7 @@ export function useT<T extends Translations>(translations: T) {
 
   // 兼容 react-i18next 的多种调用方式：
   // t('key') / t('key', '默认值') / t('key', { param: value })
-  return (key: string, defaultOrParams?: string | Record<string, string | number>): string => {
+  return (key: string, defaultOrParams?: string | Record<string, string | number>): any => {
     // 解析第二个参数
     const params = typeof defaultOrParams === 'object' ? defaultOrParams : undefined;
     
@@ -75,7 +75,7 @@ export function useT<T extends Translations>(translations: T) {
     if (localValue !== undefined) {
       // 组件内找到了，处理插值
       let text = localValue;
-      if (params) {
+      if (typeof text === 'string' && params) {
         Object.entries(params).forEach(([k, v]) => {
           text = text.replace(new RegExp(`{{${k}}}`, 'g'), String(v));
         });
@@ -84,6 +84,6 @@ export function useT<T extends Translations>(translations: T) {
     }
     
     // 组件内没找到，fallback 到全局翻译（保持原始参数传递）
-    return globalT(key, defaultOrParams as any) as string;
+    return globalT(key, defaultOrParams as any);
   };
 }
