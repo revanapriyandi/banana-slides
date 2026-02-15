@@ -190,6 +190,92 @@ const homeI18n = {
       },
     },
   },
+  id: {
+    nav: {
+      materialGenerate: 'Buat Materi', materialCenter: 'Pusat Materi',
+      history: 'Riwayat', settings: 'Pengaturan', help: 'Bantuan'
+    },
+    settings: {
+      language: { label: 'Bahasa Antarmuka' },
+      theme: { label: 'Tema', light: 'Terang', dark: 'Gelap', system: 'Sistem' }
+    },
+    presetStyles: presetStylesI18n.id,
+    home: {
+      title: 'Banana Slides',
+      subtitle: 'Vibe your PPT like vibing code',
+      tagline: 'Generator PPT AI-native bertenaga nano banana pro🍌',
+      features: {
+        oneClick: 'Buat PPT satu klik',
+        naturalEdit: 'Edit bahasa alami',
+        regionEdit: 'Edit wilayah spesifik',
+        export: 'Ekspor ke PPTX/PDF',
+      },
+      tabs: {
+        idea: 'Dari Ide',
+        outline: 'Dari Garis Besar',
+        description: 'Dari Deskripsi',
+        ppt_renovation: 'Renovasi PPT',
+      },
+      tabDescriptions: {
+        idea: 'Masukkan ide Anda, AI akan membuat PPT lengkap untuk Anda',
+        outline: 'Punya garis besar? Tempel langsung, AI akan membaginya menjadi garis besar terstruktur',
+        description: 'Punya deskripsi detail? AI akan mengurai dan membuat gambar langsung, melewati langkah garis besar',
+        ppt_renovation: 'Unggah file PDF/PPTX yang ada, AI akan mengurai kontennya dan membuat ulang PPT yang direnovasi',
+      },
+      placeholders: {
+        idea: 'misalnya, Buat presentasi tentang sejarah AI',
+        outline: 'Tempel garis besar PPT Anda...',
+        description: 'Tempel deskripsi halaman lengkap Anda...',
+      },
+      examples: {
+        outline: 'Contoh format:\n\nSlide 1: Asal Usul AI\n- Konferensi Dartmouth 1956\n- Visi peneliti awal\n\nSlide 2: Kebangkitan Pembelajaran Mesin\n- Dari berbasis aturan ke berbasis data\n- Tinjauan algoritma klasik\n\nSlide 3: Pandangan Masa Depan\n- Tren dan tantangan\n\nJudul dengan poin-poin, atau hanya judul. AI akan membaginya menjadi garis besar terstruktur.',
+        description: 'Contoh format:\n\nSlide 1: Asal Usul AI\nPerkenalkan kelahiran AI, dimulai dari Konferensi Dartmouth 1956. Gunakan tata letak teks-kiri gambar-kanan dengan garis waktu di kiri dan ilustrasi komputer gaya retro di kanan.\n\nSlide 2: Kebangkitan Pembelajaran Mesin\nJelaskan pergeseran dari pendekatan berbasis aturan ke berbasis data. Latar belakang biru tua, bagan perbandingan algoritma di tengah, tonggak penting di bawah.\n\nSetiap slide dapat menyertakan konten, tata letak, dan gaya visual. Pisahkan slide dengan baris kosong.',
+      },
+      template: {
+        title: 'Pilih Templat Gaya',
+        useTextStyle: 'Gunakan deskripsi teks untuk gaya',
+        stylePlaceholder: 'Jelaskan gaya PPT yang Anda inginkan, misal: gaya bisnis minimalis...',
+        presetStyles: 'Pilih cepat gaya prasetel:',
+        styleTip: 'Tip: Klik gaya prasetel untuk isi cepat, atau sesuaikan',
+      },
+      actions: {
+        selectFile: 'Pilih file referensi',
+        parsing: 'Mengurai...',
+        createProject: 'Buat Proyek Baru',
+      },
+      renovation: {
+        uploadHint: 'Klik atau seret untuk mengunggah file PDF / PPTX',
+        formatHint: 'Mendukung format .pdf, .pptx, .ppt',
+        keepLayout: 'Simpan tata letak asli',
+        onlyPdfPptx: 'Hanya file PDF dan PPTX yang didukung',
+        uploadFile: 'Harap unggah file PDF atau PPTX terlebih dahulu',
+      },
+      style: {
+        extractFromImage: 'Ekstrak dari gambar',
+        extracting: 'Mengekstrak...',
+        extractSuccess: 'Gaya berhasil diekstrak',
+        extractFailed: 'Gagal mengekstrak gaya',
+      },
+      messages: {
+        enterContent: 'Silakan masukkan konten',
+        filesParsing: '{{count}} file referensi sedang diurai, harap tunggu',
+        projectCreateFailed: 'Gagal membuat proyek',
+        uploadingImage: 'Mengunggah dan mengenali gambar...',
+        imageUploadSuccess: 'Gambar diunggah! Disisipkan di posisi kursor',
+        imageUploadFailed: 'Gagal mengunggah gambar',
+        fileUploadSuccess: 'File berhasil diunggah',
+        fileUploadFailed: 'Gagal mengunggah file',
+        fileTooLarge: 'File terlalu besar: {{size}}MB, maksimum 200MB',
+        unsupportedFileType: 'Jenis file tidak didukung: {{type}}',
+        pptTip: 'Tip: Konversi PPT ke PDF untuk hasil penguraian yang lebih baik',
+        filesAdded: 'Menambahkan {{count}} file referensi',
+        imageRemoved: 'Gambar dihapus',
+        serviceTestTip: 'Uji layanan di Pengaturan terlebih dahulu untuk menghindari masalah',
+        verifying: 'Memverifikasi konfigurasi API...',
+        verifyFailed: 'Harap konfigurasikan Kunci API yang valid di Pengaturan dan klik "Uji Layanan" di bagian bawah untuk memverifikasi',
+      },
+    },
+  },
 };
 
 export const Home: React.FC = () => {
@@ -765,14 +851,18 @@ export const Home: React.FC = () => {
             />
             {/* 分隔线 */}
             <div className="h-5 w-px bg-gray-300 dark:bg-border-primary mx-1" />
-            {/* 语言切换按钮 */}
+            {/* 语言切换按钮 (Cycle) */}
             <button
-              onClick={() => i18n.changeLanguage(i18n.language?.startsWith('zh') ? 'en' : 'zh')}
+              onClick={() => {
+                const current = i18n.language;
+                const next = current?.startsWith('zh') ? 'en' : (current?.startsWith('en') ? 'id' : 'zh');
+                i18n.changeLanguage(next);
+              }}
               className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-600 dark:text-foreground-tertiary hover:text-gray-900 dark:hover:text-gray-100 hover:bg-banana-100/60 dark:hover:bg-background-hover rounded-md transition-all"
               title={t('settings.language.label')}
             >
               <Globe size={14} />
-              <span>{i18n.language?.startsWith('zh') ? 'EN' : '中'}</span>
+              <span>{i18n.language?.startsWith('zh') ? '中' : (i18n.language === 'id' ? 'ID' : 'EN')}</span>
             </button>
             {/* 主题切换按钮 */}
             <div className="relative" ref={themeMenuRef}>

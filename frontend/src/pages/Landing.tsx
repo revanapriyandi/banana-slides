@@ -100,11 +100,16 @@ export const Landing: React.FC = () => {
           </span>
         </div>
         <div className="flex items-center gap-4">
+
           <button
-            onClick={() => i18n.changeLanguage(i18n.language?.startsWith('zh') ? 'en' : 'zh')}
+            onClick={() => {
+              const current = i18n.language;
+              const next = current?.startsWith('zh') ? 'en' : (current?.startsWith('en') ? 'id' : 'zh');
+              i18n.changeLanguage(next);
+            }}
             className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-white/10"
           >
-            {i18n.language?.startsWith('zh') ? 'EN' : '中'}
+            {i18n.language?.startsWith('zh') ? '中' : (i18n.language === 'id' ? 'ID' : 'EN')}
           </button>
           <Button 
             variant="primary" 

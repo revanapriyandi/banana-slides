@@ -164,6 +164,86 @@ const settingsI18n = {
         testServiceTip: "It's recommended to test services at the bottom of this page to verify configurations"
       }
     }
+  },
+  id: {
+    nav: { backToHome: 'Kembali ke Beranda' },
+    settings: {
+      title: "Pengaturan",
+      subtitle: "Konfigurasi parameter aplikasi",
+      sections: {
+        appearance: "Tampilan", language: "Bahasa Antarmuka", apiConfig: "Konfigurasi API LLM",
+        modelConfig: "Konfigurasi Model", mineruConfig: "Konfigurasi MinerU", imageConfig: "Konfigurasi Gambar",
+        performanceConfig: "Konfigurasi Performa", outputLanguage: "Pengaturan Bahasa Keluaran",
+        textReasoning: "Mode Penalaran Teks", imageReasoning: "Mode Penalaran Gambar",
+        baiduOcr: "Konfigurasi Baidu OCR", serviceTest: "Tes Layanan", lazyllmConfig: "Konfigurasi LazyLLM"
+      },
+      theme: { label: "Tema", light: "Terang", dark: "Gelap", system: "Sistem" },
+      language: { label: "Bahasa Antarmuka", zh: "Mandarin", en: "Inggris" },
+      fields: {
+        aiProviderFormat: "Format Penyedia AI",
+        aiProviderFormatDesc: "Pilih format permintaan API. Efektif setelah disimpan.",
+        openaiFormat: "Format OpenAI", geminiFormat: "Format Gemini", lazyllmFormat: "Format LazyLLM",
+        apiBaseUrl: "URL Dasar API", apiBaseUrlPlaceholder: "https://api.example.com",
+        apiBaseUrlDesc: "Atur URL dasar untuk API penyedia LLM",
+        apiKey: "Kunci API", apiKeyPlaceholder: "Masukkan Kunci API baru",
+        apiKeyDesc: "Biarkan kosong untuk menyimpan pengaturan saat ini",
+        apiKeySet: "Diatur (panjang: {{length}})",
+        textModel: "Model Teks", textModelPlaceholder: "Biarkan kosong untuk menggunakan env",
+        textModelDesc: "Model untuk menghasilkan kerangka dan deskripsi",
+        imageModel: "Model Gambar", imageModelPlaceholder: "Biarkan kosong untuk menggunakan env",
+        imageModelDesc: "Model untuk menghasilkan gambar halaman",
+        imageCaptionModel: "Model Keterangan Gambar", imageCaptionModelPlaceholder: "Biarkan kosong untuk menggunakan env",
+        imageCaptionModelDesc: "Model untuk mengenali gambar",
+        mineruApiBase: "MinerU API Base", mineruApiBasePlaceholder: "Biarkan kosong untuk menggunakan env",
+        mineruApiBaseDesc: "Alamat layanan MinerU",
+        mineruToken: "Token MinerU", mineruTokenPlaceholder: "Masukkan Token MinerU baru",
+        mineruTokenDesc: "Biarkan kosong untuk menyimpan pengaturan saat ini",
+        imageResolution: "Resolusi Gambar",
+        imageResolutionDesc: "Resolusi lebih tinggi membutuhkan waktu lebih lama",
+        maxDescriptionWorkers: "Maks Pekerja Deskripsi", maxDescriptionWorkersDesc: "Pekerja bersamaan maksimal (1-20)",
+        maxImageWorkers: "Maks Pekerja Gambar", maxImageWorkersDesc: "Pekerja bersamaan maksimal (1-20)",
+        defaultOutputLanguage: "Bahasa Keluaran Default", defaultOutputLanguageDesc: "Bahasa default untuk konten AI",
+        enableTextReasoning: "Aktifkan Penalaran Teks", enableTextReasoningDesc: "Gunakan pemikiran yang diperluas untuk teks",
+        textThinkingBudget: "Anggaran Pemikiran Teks", textThinkingBudgetDesc: "Anggaran token untuk penalaran teks (1-8192)",
+        enableImageReasoning: "Aktifkan Penalaran Gambar", enableImageReasoningDesc: "Gunakan rantai pemikiran untuk gambar",
+        imageThinkingBudget: "Anggaran Pemikiran Gambar", imageThinkingBudgetDesc: "Anggaran token untuk penalaran gambar (1-8192)",
+        baiduOcrApiKey: "Kunci API Baidu OCR", baiduOcrApiKeyPlaceholder: "Masukkan Kunci API Baidu OCR",
+        baiduOcrApiKeyDesc: "Untuk pengenalan teks dalam ekspor PPTX",
+        textModelSource: "Penyedia Model Teks", textModelSourceDesc: "Pilih penyedia untuk teks", textModelSourcePlaceholder: "-- Pilih --",
+        imageModelSource: "Penyedia Model Gambar", imageModelSourceDesc: "Pilih penyedia untuk gambar", imageModelSourcePlaceholder: "-- Pilih --",
+        imageCaptionModelSource: "Penyedia Keterangan Gambar", imageCaptionModelSourceDesc: "Pilih penyedia untuk keterangan", imageCaptionModelSourcePlaceholder: "-- Pilih --",
+        vendorApiKey: "Kunci API {{vendor}}", vendorApiKeyPlaceholder: "Masukkan Kunci API {{vendor}}",
+        vendorApiKeyDesc: "Biarkan kosong untuk menyimpan pengaturan saat ini",
+        vendorApiKeySet: "Diatur (panjang: {{length}})",
+        selectPlaceholder: "-- Pilih --",
+      },
+      apiKeyTip: "Dapatkan kunci API dari {{link}}",
+      serviceTest: {
+        title: "Tes Layanan", description: "Verifikasi konfigurasi layanan sebelum digunakan.",
+        tip: "Tip: Tes gambar dan MinerU mungkin memakan waktu 30-60 detik.",
+        startTest: "Mulai Tes", testing: "Mencoba...", testTimeout: "Waktu habis, coba lagi", testFailed: "Gagal",
+        tests: {
+          baiduOcr: { title: "Layanan Baidu OCR", description: "Tes pengenalan teks gambar" },
+          textModel: { title: "Model Teks", description: "Verifikasi model teks dan API" },
+          captionModel: { title: "Model Keterangan", description: "Tes deskripsi gambar" },
+          baiduInpaint: { title: "Inpainting Baidu", description: "Tes layanan inpainting" },
+          imageModel: { title: "Model Gambar", description: "Tes pembuatan gambar (20-40 detik)" },
+          mineruPdf: { title: "MinerU PDF", description: "Tes penguraian PDF (30-60 detik)" }
+        },
+        results: {
+          recognizedText: "Dikenali: {{text}}", modelReply: "Balasan: {{reply}}",
+          captionDesc: "Keterangan: {{caption}}", imageSize: "Ukuran: {{width}}x{{height}}",
+          parsePreview: "Pratinjau: {{preview}}"
+        }
+      },
+      actions: { save: "Simpan", saving: "Menyimpan...", resetToDefault: "Atur Ulang" },
+      messages: {
+        loadFailed: "Gagal memuat", saveSuccess: "Berhasil disimpan", saveFailed: "Gagal menyimpan",
+        resetConfirm: "Ini akan mengatur ulang semua konfigurasi ke default. Lanjutkan?",
+        resetTitle: "Konfirmasi Atur Ulang", resetSuccess: "Berhasil diatur ulang", resetFailed: "Gagal mengatur ulang",
+        testServiceTip: "Disarankan untuk menguji layanan di bawah ini"
+      }
+    }
   }
 };
 import { Button, Input, Card, Loading, useToast, useConfirm } from '@/components/shared';

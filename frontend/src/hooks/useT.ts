@@ -5,6 +5,7 @@ type NestedRecord = Record<string, unknown>;
 type Translations = {
   zh: NestedRecord;
   en: NestedRecord;
+  id?: NestedRecord;
 };
 
 /**
@@ -59,8 +60,8 @@ function getNestedValue(obj: NestedRecord, path: string): string | undefined {
  */
 export function useT<T extends Translations>(translations: T) {
   const { t: globalT, i18n } = useTranslation();
-  const lang = i18n.language?.startsWith('zh') ? 'zh' : 'en';
-  const dict = translations[lang] || translations['zh'];
+  const lang = i18n.language?.startsWith('zh') ? 'zh' : (i18n.language === 'id' ? 'id' : 'en');
+  const dict = translations[lang] || translations['en'] || translations['zh'];
 
   // 兼容 react-i18next 的多种调用方式：
   // t('key') / t('key', '默认值') / t('key', { param: value })
